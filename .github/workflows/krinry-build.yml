@@ -1,0 +1,40 @@
+name: krinry Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build type'
+        required: true
+        default: 'release'
+        type: choice
+        options: [debug, release]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.0'
+          channel: 'stable'
+
+      - run: flutter pub get
+
+      - run: flutter create --platforms android .
+
+      - name: Build APK
+        run: flutter build apk --${{ github.event.inputs.build_type }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: anti-tamper-apk
+          path: build/app/outputs/flutter-apk/*.apk
+          retention-days: 7
