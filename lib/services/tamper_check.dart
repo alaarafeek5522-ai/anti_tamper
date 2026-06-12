@@ -7,7 +7,7 @@ import 'dart:convert';
 
 class TamperCheck {
   static const String _validSignature =
-      '60:A9:71:4E:EB:77:88:97:DD:EC:4A:2F:65:AC:48:AF:BD:71:4F:93:75:62:FD:95:08:9F:50:46:3F:20:1C:DD';
+      '1E:65:D0:D0:28:32:11:62:65:1F:F4:59:21:5A:4A:35:E3:BB:4D:0F:9C:51:E7:8D:34:D3:B3:8E:0D:E7:D1:FA';
 
   static const String _validPackage = 'com.alaa.anti_tamper';
 
