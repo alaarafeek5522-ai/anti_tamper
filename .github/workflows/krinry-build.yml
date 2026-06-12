@@ -28,7 +28,17 @@ jobs:
 
       - run: flutter pub get
 
-      - run: flutter create --platforms android .
+      - name: Create android folder
+        run: |
+          cp -r android android_backup 2>/dev/null || true
+          flutter create --platforms android --org com.alaa .
+          cp -r android_backup/. android/ 2>/dev/null || true
+
+      - name: Fix package name
+        run: |
+          find android -name "*.kt" -exec sed -i 's/com\.example\.anti_tamper/com.alaa.anti_tamper/g' {} \;
+          find android -name "*.xml" -exec sed -i 's/com\.example\.anti_tamper/com.alaa.anti_tamper/g' {} \;
+          find android -name "*.gradle" -exec sed -i 's/com\.example\.anti_tamper/com.alaa.anti_tamper/g' {} \;
 
       - name: Build APK
         run: flutter build apk --${{ github.event.inputs.build_type }} --target-platform android-arm64

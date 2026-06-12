@@ -4,7 +4,6 @@ import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import android.content.pm.PackageManager
-import android.util.Base64
 import java.security.MessageDigest
 
 class MainActivity : FlutterActivity() {
@@ -30,7 +29,7 @@ class MainActivity : FlutterActivity() {
             val sig = info.signatures?.get(0) ?: return "ERROR: no signature"
             val md = MessageDigest.getInstance("SHA-256")
             md.update(sig.toByteArray())
-            Base64.encodeToString(md.digest(), Base64.DEFAULT).trim()
+            md.digest().joinToString(":") { "%02X".format(it) }
         } catch (e: Exception) {
             "ERROR: ${e.message}"
         }
