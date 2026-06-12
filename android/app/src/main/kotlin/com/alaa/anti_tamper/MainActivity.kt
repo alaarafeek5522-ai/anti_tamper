@@ -27,7 +27,7 @@ class MainActivity : FlutterActivity() {
                 packageName,
                 PackageManager.GET_SIGNATURES
             )
-            val sig = info.signatures[0]
+            val sig = info.signatures?.get(0) ?: return "ERROR: no signature"
             val md = MessageDigest.getInstance("SHA-256")
             md.update(sig.toByteArray())
             Base64.encodeToString(md.digest(), Base64.DEFAULT).trim()
